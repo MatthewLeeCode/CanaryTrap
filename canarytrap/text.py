@@ -40,6 +40,7 @@ def unicode_space_encode(text:str, binary:int|None = None) -> Tuple[str, str]:
             text_list[space_index] = blank_space
     
     text = "".join(text_list)
+    text = text.replace(blank_space, f"{blank_space} ")
     return text, binary_string
 
 
@@ -54,10 +55,15 @@ def unicode_space_to_binary_str(text:str) -> str:
     """
     blank_space = "\u200E"
     binary_string = ""
-
+    
+    skip_next = False 
     for char in text:
+        if skip_next:
+            skip_next = False
+            continue
         if char == blank_space:
             binary_string += "1"
+            skip_next = True
         elif char == " ":
             binary_string += "0"
     
@@ -81,6 +87,7 @@ def unicode_space_match(text:str, binary_str:str) -> float:
         0.5
     """
     blank_space = "\u200E"
+    text = text.replace(f"{blank_space} ", blank_space)
     space_count = text.count(" ") + text.count(blank_space)
     space_indicies = [i for i, char in enumerate(text) if char == " " or char == blank_space]
 

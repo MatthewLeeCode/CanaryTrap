@@ -17,9 +17,14 @@ def test_unicode_space_encode_position():
     encoded_text, binary_string = canary.text.unicode_space_encode(text)
 
     calculated_binary_string = ""
+    skip_next = False
     for i, char in enumerate(encoded_text):
+        if skip_next:
+            skip_next = False
+            continue
         if char == "\u200E":
             calculated_binary_string += "1"
+            skip_next = True
         elif char == " ":
             calculated_binary_string += "0"
     
