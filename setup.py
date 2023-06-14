@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="canarytrap",
-    version="1.0.0",
+    version="1.0.2",
     description="A Python package to watermark text.",
     long_description=open('README.md', 'r', encoding='utf-8').read(),
     long_description_content_type="text/markdown",
