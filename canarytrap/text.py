@@ -5,7 +5,7 @@ from typing import Tuple
 from random import randint
 
 
-def unicode_space_encode(text:str, binary:int|None = None) -> Tuple[str, str]:
+def unicode_space_encode(text:str, binary_string:str|None = None) -> Tuple[str, str]:
     """ Encode spaces in text to unicode spaces based on a binary value
 
     If the text has 12 spaces and the binary value is 1100, then the first 2 spaces will be unicode spaces.
@@ -13,7 +13,8 @@ def unicode_space_encode(text:str, binary:int|None = None) -> Tuple[str, str]:
 
     Args:
         text: The text to encode
-        binary: The binary value to use. Defaults to None.
+        binary: The binary value to use. Each 1 means a replacement of a space char with a blank char. 
+        Defaults to None.
 
     Returns:
         The encoded text and the binary value used
@@ -25,11 +26,10 @@ def unicode_space_encode(text:str, binary:int|None = None) -> Tuple[str, str]:
     space_count = text.count(" ")
     space_indicies = [i for i, char in enumerate(text) if char == " "]
 
-    if binary is None:
+    if binary_string is None:
         binary = randint(0, 2**space_count - 1)
+        binary_string = bin(binary)[2:]
 
-    # Check if binary length (not number) is less than space count
-    binary_string = bin(binary)[2:]
     if len(binary_string) > space_count:
         raise ValueError("The length of the binary string is too large for the number of spaces in the text")
 
@@ -41,6 +41,7 @@ def unicode_space_encode(text:str, binary:int|None = None) -> Tuple[str, str]:
     
     text = "".join(text_list)
     text = text.replace(blank_space, f"{blank_space} ")
+    binary_string = unicode_space_to_binary_str(text)
     return text, binary_string
 
 

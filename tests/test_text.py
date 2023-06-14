@@ -44,3 +44,12 @@ def test_unicode_space_match():
     text = "This is the text to test"
     encoded_text, binary_string = canary.text.unicode_space_encode(text)
     assert canary.text.unicode_space_match(encoded_text, binary_string) == 1.0
+
+
+def test_unicode_space_match_leading_0():
+    random.seed(0)
+    text = f"Hello\u200e my\u200e name\u200e is Matthew Lee"
+    wrong_bin = "111"
+    corr_bin = "11100"
+    assert canary.text.unicode_space_match(text, wrong_bin) <= 1.0
+    assert canary.text.unicode_space_match(text, corr_bin) == 1.0
